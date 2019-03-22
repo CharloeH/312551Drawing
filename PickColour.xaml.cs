@@ -22,10 +22,28 @@ namespace _312551Drawing
         public PickColour()
         {
             InitializeComponent();
-            for (int r = 0; r < 256; r += 33)
+            for (int r = 0; r < 256; r += 33) //red
             {
                 Button b = new Button();
                 b.Background = new SolidColorBrush(Color.FromRgb((byte)r, 0, 0));
+                b.Content = " ";
+                b.Click += btnPickColor_Click;
+                stackPanel.Children.Add(b);
+            }
+
+            for (int r = 0; r < 255; r += 33) //green
+            {
+                Button b = new Button();
+                b.Background = new SolidColorBrush(Color.FromRgb(0, (byte)r, 0));
+                b.Content = " ";
+                b.Click += btnPickColor_Click;
+                stackPanel.Children.Add(b);
+            }
+
+            for (int r = 0; r < 255; r += 33) //Blue
+            {
+                Button b = new Button();
+                b.Background = new SolidColorBrush(Color.FromRgb(0, 0, (byte)r));
                 b.Content = " ";
                 b.Click += btnPickColor_Click;
                 stackPanel.Children.Add(b);

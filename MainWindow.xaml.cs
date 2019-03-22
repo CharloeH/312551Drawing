@@ -15,11 +15,13 @@ using System.Windows.Shapes;
 
 namespace _312551Drawing
 {
+    public enum SetShape { Rectangle, Ellipse }
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
+       
         public static Brush b;
         public MainWindow()
         {
@@ -34,37 +36,82 @@ namespace _312551Drawing
 
         private void BtnDraw_Click(object sender, RoutedEventArgs e)
         {
+            string shape;
+            if (((bool)rbRec.IsChecked) == true)
+            {
+                DrawingHelper.set = SetShape.Rectangle;
+                shape = "Rectangle";
+            }
+            else if (((bool)rbEli.IsChecked) == true)
+            {
+                DrawingHelper.set = SetShape.Ellipse;
+                shape = "Elipse";
+            }
+
+            int[] rectangleSpecs = new int[4];
+            getCordinates(rectangleSpecs);
+            DrawingHelper DH = new DrawingHelper(canvas, rectangleSpecs[0], rectangleSpecs[1], rectangleSpecs[2], rectangleSpecs[3], b, shape);
+        }
+
+        private void getCordinates(int[] rectangleSpecs)
+        {
             try
             {
-                System.IO.StreamWriter sw = new System.IO.StreamWriter("txtSpecs.txt");
-                sw.WriteLine(txtInput.Text);
-                sw.Flush();
-                sw.Close();
+                string line = txtInput.Text;
+                for (int i = 0; i < 3; i++)
+                {
+
+                    int.TryParse(line.Substring(0, line.IndexOf(',')), out rectangleSpecs[i]);
+                    line = line.Substring(line.IndexOf(',') + 1);
+                }
+                int.TryParse(line, out rectangleSpecs[3]);
+                
             }
-            catch(Exception ex)
+
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-            DrawingHelper DH = new DrawingHelper(canvas, 10, 10, 100, 100, b, "Rectangle");
         }
     }
     class DrawingHelper
     {
+        public static SetShape set = new SetShape();
         private Canvas c = new Canvas();
+
         private Rectangle r = new Rectangle();
+        private Ellipse e = new Ellipse();
+
 
         public DrawingHelper(Canvas C, double X, double Y, 
             double W, double H, Brush colour, string Shape)
         {
-            r.Height = H;
-            r.Width = W;
+            if (set == SetShape.Rectangle)
+            {
+                r.Height = H;
+                r.Width = W;
 
-            Canvas.SetTop(r, Y);
-            Canvas.SetLeft(r, X);
+                Canvas.SetTop(r, Y);
+                Canvas.SetLeft(r, X);
 
-            r.Fill = colour;
+                r.Fill = colour;
 
-            C.Children.Add(r);
+                C.Children.Add(r);
+            
+            }
+            else if(set == SetShape.Ellipse)
+            {
+                e.Height = H;
+                e.Width = W;
+
+                Canvas.SetTop(e, Y);
+                Canvas.SetLeft(e, X);
+
+                e.Fill = colour;
+
+                C.Children.Add(e);
+
+            }
         }
     }
 }

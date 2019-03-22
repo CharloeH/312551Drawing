@@ -9,9 +9,9 @@
     <StackPanel DockPanel.Dock="Bottom">
         <Canvas DockPanel.Dock="Top" x:Name="canvas" Height="400"/>
         <RadioButton x:Name="rbRec">Rectangle</RadioButton>
-        <RadioButton x:Name="rEli">Elipse</RadioButton>
+        <RadioButton x:Name="rbEli">Elipse</RadioButton>
         <Button x:Name="setColour" Click="SetColour_Click">Set Colour</Button>
-        <TextBox x:Name="txtInput">Enter Specifications</TextBox>
+        <TextBox x:Name="txtInput">10,10,100,100</TextBox>
         <Button x:Name="btnDraw" Click="BtnDraw_Click">Draw</Button>
     </StackPanel>
 </Window>
